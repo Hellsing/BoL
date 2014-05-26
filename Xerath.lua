@@ -1,6 +1,6 @@
 if myHero.charName ~= "Xerath" then return end
 
-local version = 2.02
+local version = 2.03
 local AUTOUPDATE = true
 local SCRIPT_NAME = "Xerath"
 
@@ -237,10 +237,12 @@ function OnLoad()
 	Menu:addSubMenu("RSnipe", "RSnipe")
 		
 		Menu.RSnipe:addParam("AutoR", "Use all charges", SCRIPT_PARAM_ONKEYDOWN, false, string.byte("R"))
+		AllMenu = #Menu.RSnipe._param
 		Menu.RSnipe:addParam("AutoR2", "Use 1 charge (tap)", SCRIPT_PARAM_ONKEYDOWN, false, string.byte("T"))
 		TapMenu = #Menu.RSnipe._param
 
 		Menu.RSnipe:addParam("JS", "Jungle Steal", SCRIPT_PARAM_ONKEYDOWN, false, string.byte("J"))
+		JungleMenu = #Menu.RSnipe._param
 
 		Menu.RSnipe:addParam("Targetting", "Targetting mode: ", SCRIPT_PARAM_LIST, 2, { "Near mouse (1000) range from mouse", "Most killable"})
 		
@@ -368,6 +370,18 @@ end
 
 function OnTick()
 	SOWi:EnableAttacks()
+
+	-- Ult not casting issue fix
+	if Menu.RSnipe._param[AllMenu].key == Menu.RSnipe._param[JungleMenu].key then
+		Menu.RSnipe._param[AllMenu].key    = 82 -- R
+		Menu.RSnipe._param[JungleMenu].key = 74 -- J
+		Menu.RSnipe.AutoR = false
+		Menu.RSnipe.JS    = false
+		-- Trigger scriptConfig saving
+		Menu.RSnipe:save()
+		print("Xerath: Key binding issue found, RSnipe keys resetted")
+	end
+
 	if Menu.RSnipe.AutoR then
 		RPressTime = os.clock()
 		JSPressTime = 0
