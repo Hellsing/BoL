@@ -1,6 +1,6 @@
 if myHero.charName ~= "Syndra" then return end
 
-local version = 1.06
+local version = 1.07
 local AUTOUPDATE = true
 local SCRIPT_NAME = "Syndra"
 
@@ -40,7 +40,7 @@ local _QE = 1337
 
 --SpellData
 local Ranges = {[_Q] = 790,       [_W] = 925,  [_E] = 700,       [_R] = 675}
-local Widths = {[_Q] = 125,       [_W] = 125,  [_E] = 45 * 0.5,  [_R] = 1,    [_QE] = 60}
+local Widths = {[_Q] = 125,       [_W] = 190,  [_E] = 45 * 0.5,  [_R] = 1,    [_QE] = 60}
 local Delays = {[_Q] = 0.6,       [_W] = 0.25, [_E] = 0.25,      [_R] = 0.25, [_QE] = 1800} ---_QE delay updates in function of _E delay + Speed and the distance to the ball
 local Speeds = {[_Q] = math.huge, [_W] = 1450, [_E] = 2500,      [_R] = 1,    [_QE] = 1600}
 
@@ -168,8 +168,8 @@ function OnLoad()
 			DManager:CreateCircle(myHero, range, 1, {255, 255, 255, 255}):AddToMenu(Menu.Drawings, SpellToString(spell).." Range", true, true, true)
 		end
 		DManager:CreateCircle(myHero, QERange, 1, {255, 255, 255, 255}):AddToMenu(Menu.Drawings, "Q+E Range", true, true, true)
-		
-		
+
+
 	--[[Predicted damage on healthbars]]
 	DLib:AddToMenu(Menu.Drawings, MainCombo)
 
@@ -346,7 +346,7 @@ end
 
 function OnInterruptSpell(unit, spell)
 	if GetDistanceSqr(unit.visionPos, myHero.visionPos) < E.rangeSqr and E:IsReady() then
-		
+
 		if Q:IsReady() then
 			StartEQCombo(unit, false)
 		else
@@ -532,7 +532,7 @@ function UseSpells(UseQ, UseW, UseE, UseEQ, UseR)
 	if Rtarget and UseR then
 		if DLib:IsKillable(Qtarget, GetCombo()) or (os.clock() - UseRTime < 10) then
 			ItemManager:CastOffensiveItems(Rtarget)
-			
+
 			DFG = ItemManager:GetItem("DFG"):GetSlot()
 			if DFG and myHero:CanUseSpell(DFG) == READY then
 				DFGUsed = true
@@ -569,10 +569,10 @@ function Farm()
 	local UseQ = Menu.Farm.LaneClear and (Menu.Farm.UseQ >= 3) or (Menu.Farm.UseQ == 2 or Menu.Farm.UseQ == 4)
 	local UseW = Menu.Farm.LaneClear and (Menu.Farm.UseW >= 3) or (Menu.Farm.UseW == 2 or Menu.Farm.UseW == 4)
 	local UseE = Menu.Farm.LaneClear and (Menu.Farm.UseE >= 3) or (Menu.Farm.UseE == 2 or Menu.Farm.UseE == 4)
-	
+
 	local CasterMinions = SelectUnits(EnemyMinions.objects, function(t) return (t.charName:lower():find("wizard") or t.charName:lower():find("caster")) and ValidTarget(t) and GetDistanceSqr(t) < W.rangeSqr end)
 	local MeleeMinions = SelectUnits(EnemyMinions.objects, function(t) return (t.charName:lower():find("basic") or t.charName:lower():find("cannon")) and ValidTarget(t) and GetDistanceSqr(t) < W.rangeSqr end)
-	
+
 	if UseW then
 		if W.status == 0 then
 			if #MeleeMinions > 1 then
@@ -653,7 +653,7 @@ function JungleFarm()
 	local CloseMinion = CloseMinions[1]
 	local FarMinion = AllMinions[1]
 
-	
+
 
 	if ValidTarget(CloseMinion) then
 		local selectedTarget = GetTarget()
@@ -712,7 +712,7 @@ function UpdateSpellData()
 	if E.width ~= 2 * Widths[_E] and E:GetLevel() == 5 then
 		E.width = 2 * Widths[_E]
 	end
-	
+
 	if R.range ~= (Ranges[_R] + 75) and R:GetLevel() == 5 then
 		R:SetRange(Ranges[_R] + 75)
 	end
@@ -740,7 +740,7 @@ function OnTick()
 	DLib.combo = GetCombo()
 	UpdateSpellData()--update the spells data
 	DrawEQIndicators = false
-	
+
 	if Menu.Combo.Enabled then
 		Combo()
 	elseif Menu.Harass.Enabled or Menu.Harass.Enabled2 then
