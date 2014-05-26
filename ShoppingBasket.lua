@@ -145,6 +145,3 @@ function OnWndMsg(Msg, Key)
 		end
 	end
 end
-
---UPDATEURL=https://bitbucket.org/honda7/bol/raw/master/ShoppingBasket.lua
---HASH=7BE5EF059D4DC05E5A0C17BB8C366898
