@@ -1,4 +1,4 @@
-local version = "2.51"
+local version = "2.52"
 local TESTVERSION = false
 local AUTOUPDATE = true
 local UPDATE_HOST = "raw.github.com"
@@ -1256,17 +1256,17 @@ function VPrediction:CalcDamageOfAttack(source, target, spell, additionalDamage)
 	end
 
 	-- use ability power or ad based damage on turrets
-	if source.type == "obj_AI_Hero" and target.type == "obj_AI_Turret" then
+	if source.type == myHero.type and target.type == "obj_AI_Turret" then
 		totalDamage = math.max(source.totalDamage, source.damage + 0.4 * source.ap)
 	end
 
 	-- minions deal less damage to enemy heros
-	if source.type == "obj_AI_Minion" and target.type == "obj_AI_Hero" and source.team ~= TEAM_NEUTRAL then
+	if source.type == "obj_AI_Minion" and target.type == myHero.type and source.team ~= TEAM_NEUTRAL then
 		damageMultiplier = 0.60 * damageMultiplier
 	end
 
 	-- heros deal less damage to turrets
-	if source.type == "obj_AI_Hero" and target.type == "obj_AI_Turret" then
+	if source.type == myHero.type and target.type == "obj_AI_Turret" then
 		damageMultiplier = 0.95 * damageMultiplier
 	end
 
