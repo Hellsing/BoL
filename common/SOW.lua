@@ -1,4 +1,4 @@
-local version = "1.130"
+local version = "1.1301"
 local AUTOUPDATE = true
 local UPDATE_HOST = "raw.github.com"
 local UPDATE_PATH = "/Hellsing/BoL/master/common/SOW.lua".."?rand="..math.random(1,10000)
@@ -84,6 +84,7 @@ function SOW:__init(VP)
 			["cassiopeia"] = _E,
 			["garen"] = _Q,
 			["khazix"] = _Q,
+			["gnar"] = _E
 		}
 
 	self.LastAttack = 0
